@@ -93,10 +93,13 @@ class EnhancedOllamaAgent:
             
             # Check for errors
             if result.returncode != 0:
+                # because Rscript somtimes puts startup errors in stdout:
+                error_message = result.stderr + result.stdout
+                logger.error(f"Return code was not zero. Error: {error_message}")
                 return {
                     'success': False,
-                    'error': result.stderr,
-                    'output': result.stdout,
+                    'error': error_message,
+                    'output': "None",
                     'plot_files': []
                 }
             
@@ -118,13 +121,15 @@ class EnhancedOllamaAgent:
             }
             
         except subprocess.TimeoutExpired:
+            logger.error("Process timed out")
             return {
                 'success': False,
                 'error': 'R script execution timed out (60s limit)',
                 'output': '',
                 'plot_files': []
             }
-        except FileNotFoundError:
+        except FileNotFoundError as fnfe:
+            logger.error(fnfe)
             return {
                 'success': False,
                 'error': 'Rscript not found. Make sure R is installed and in PATH.',
@@ -132,6 +137,7 @@ class EnhancedOllamaAgent:
                 'plot_files': []
             }
         except Exception as e:
+            logger.error(e)
             return {
                 'success': False,
                 'error': str(e),
