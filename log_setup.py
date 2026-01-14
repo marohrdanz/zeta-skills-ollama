@@ -25,15 +25,5 @@ def configure_logging(level = "DEBUG"):
         stream_handler.setFormatter(formatter)
         logger= logging.getLogger(__name__)
         logger.addHandler(stream_handler)
-        # File handler
-#        log_file = getenv('LOG_FILE', 'app.log')
-#        file_handler = logging.FileHandler(log_file)
-#        file_formatter = ColoredFormatter( # no color codes in file
-#          '%(asctime)s - %(levelname)s - %(message)s',
-#          datefmt='%Y-%m-%d %H:%M:%S',
-#          reset=True
-#        )
-#        file_handler.setFormatter(file_formatter)
-#        logger.addHandler(file_handler)
         logger.setLevel(level)
     return logger
