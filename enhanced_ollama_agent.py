@@ -1,13 +1,14 @@
 """
-Enhanced Ollama Agent with Automatic R Plot Execution and Display
+Ollama Skills Agent
 
-Drop-in replacement for your existing agent that automatically:
+This agent uses the Local LLM Skills System with Ollama to:
+
 1. Detects R code in responses
 2. Executes the code
 3. Saves and displays the plot
 
 Usage:
-    from enhanced_agent import EnhancedOllamaAgent
+    from enhanced_ollama_agent import EnhancedOllamaAgent
     
     agent = EnhancedOllamaAgent()
     agent.chat("Plot y = x² in R")
