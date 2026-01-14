@@ -72,9 +72,11 @@ class EnhancedOllamaAgent:
     def _execute_r_code(self, r_code: str) -> dict:
         """Execute R code and return results"""
         logger.info("Executing R code")
-        script_path = self.save_plots_to / "temp_script.R"
+        script_name = "temp_script.R"
+        script_path = os.path.join(self.save_plots_to, script_name)
         
         try:
+            self.save_plots_to.mkdir(parents=True, exist_ok=True)
             # Write R code to temp file
             with open(script_path, 'w') as f:
                 f.write(r_code)
@@ -82,7 +84,7 @@ class EnhancedOllamaAgent:
             # Execute with Rscript
             logger.debug(f"script_path: {str(script_path)}")
             result = subprocess.run(
-                ['Rscript', str(script_path)],
+                ['Rscript', str(script_name)],
                 capture_output=True,
                 text=True,
                 timeout=60,
